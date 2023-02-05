@@ -84,7 +84,7 @@ const Signup = ({ navigation }) => {
           <Text style={head1}>Create a New Account</Text>
           <Text style={link2}>
             Already Registered?&nbsp;
-            <Text style={link} onPress={() => navigation.navigate("login")}>
+            <Text style={link} onPress={() => navigation.navigate("Login")}>
               Login here
             </Text>
           </Text>

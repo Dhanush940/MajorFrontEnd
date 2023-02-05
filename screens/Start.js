@@ -4,8 +4,6 @@ import { useNavigation } from "@react-navigation/native";
 import styles from "../styles/style";
 import Question from "../components/Question";
 const Start = () => {
-  const navigation = useNavigation();
-
   return (
     <SafeAreaView
       style={{

@@ -56,7 +56,7 @@ const Login = ({ navigation }) => {
         <View style={styles.s1}>
           <Text
             style={styles.h1}
-            onPress={() => navigation.navigate("welcome")}
+            onPress={() => navigation.navigate("Welcome")}
           >
             Quiz Application
           </Text>
@@ -96,7 +96,7 @@ const Login = ({ navigation }) => {
           </Text> */}
           <Text style={link2}>
             Don't have an account?&nbsp;
-            <Text style={link} onPress={() => navigation.navigate("signup")}>
+            <Text style={link} onPress={() => navigation.navigate("Signup")}>
               Create a new account
             </Text>
           </Text>
