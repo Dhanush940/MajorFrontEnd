@@ -3,7 +3,7 @@ import { Image, Pressable } from "react-native";
 import React from "react";
 import styles from "../styles/style";
 import { useNavigation } from "@react-navigation/native";
-import Tts from "react-native-tts";
+
 const HomeScreen = () => {
   const navigation = useNavigation();
   React.useLayoutEffect(() => {
@@ -48,7 +48,6 @@ const HomeScreen = () => {
         >
           <Pressable
             onPress={() => {
-              Tts.speak("Start");
               navigation.navigate("Start");
             }}
             style={styles.button}
