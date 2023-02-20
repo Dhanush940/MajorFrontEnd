@@ -7,12 +7,12 @@ import Response from "../DB/Response";
 import styles from "../styles/style";
 import Answers from "../DB/Answers";
 import { useNavigation } from "@react-navigation/native";
-import * as Speech from "expo-speech";
+
 const Question = () => {
   const navigator = useNavigation();
   const [number, setNumber] = useState(0);
   const [checked, setChecked] = useState(0);
-  // const [answer, setAnswers] = useState([]);
+  const [answer, setAnswers] = useState([]);
 
   const changeQuestionFront = () => {
     if (number >= data.length - 1) return;
@@ -65,24 +65,6 @@ const Question = () => {
     navigator.navigate("End", { correct: count });
     return;
   };
-
-  // React.useEffect(() => {
-  //   Speech.stop();
-  //   Speech.speak(data[number].question);
-  //   Speech.speak(data[number][1]);
-  //   Speech.speak(data[number][2]);
-  //   Speech.speak(data[number][3]);
-  //   Speech.speak(data[number][4]);
-  // }, [changeQuestionFront]);
-  //Each time the function gets a new reference.That's why works(Speaks out loud) even when i go back to the previous question though only changeQuestionFront is passed as an argument to the dependency list
-  React.useEffect(() => {
-    Speech.stop();
-    Speech.speak(data[number].question);
-    Speech.speak(data[number][1]);
-    Speech.speak(data[number][2]);
-    Speech.speak(data[number][3]);
-    Speech.speak(data[number][4]);
-  }, [number]);
 
   return (
     <View
