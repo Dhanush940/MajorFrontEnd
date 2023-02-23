@@ -7,8 +7,8 @@ import Response from "../DB/Response";
 import styles from "../styles/style";
 import Answers from "../DB/Answers";
 import { useNavigation } from "@react-navigation/native";
-
-const Question = () => {
+import * as Speech from "expo-speech";
+const Question1 = () => {
   const navigator = useNavigation();
   const [number, setNumber] = useState(0);
   const [checked, setChecked] = useState(0);
@@ -28,28 +28,35 @@ const Question = () => {
   };
 
   const updateOption = (id, number) => {
-    if (
-      Response[number].chose != true ||
-      (Response[number].chose == true && Response[number].selected === id)
-    ) {
+    if (Response[number].chose != true) {
       Response[number][id] = !Response[number][id];
       Response[number].chose = !Response[number].chose;
       Response[number].selected = id;
+      Speech.speak(`You have selected ${data[number][id]} `, {
+        language: "en",
+      });
       // console.log(answer);
       // console.log((Response[number].selected = id));
-    } else
-      Alert.alert(
-        "Can't Perform This Action",
-        "Choose Only One Option.Deselect The Current One And Select Different Option",
-        [
-          {
-            text: "OK",
-            onPress: () => {
-              return;
-            },
+    } else if (
+      Response[number].chose == true &&
+      Response[number].selected === id
+    ) {
+      Response[number][id] = !Response[number][id];
+      Response[number].chose = !Response[number].chose;
+      Response[number].selected = null;
+      Speech.speak(`You have de-selected ${data[number][id]}`);
+    } else {
+      Alert.alert("Can't Perform This Action ", "Choose Only One Option.", [
+        {
+          text: "OK",
+          onPress: () => {
+            return;
           },
-        ]
-      );
+        },
+      ]);
+      Speech.speak("Choose only one option", { language: "en" });
+    }
+
     setChecked((prevState) => prevState + 1);
 
     // console.log(typeof number);
@@ -66,6 +73,14 @@ const Question = () => {
     return;
   };
 
+  React.useEffect(() => {
+    Speech.stop();
+    Speech.speak(data[number].question);
+    Speech.speak(data[number][1]);
+    Speech.speak(data[number][2]);
+    Speech.speak(data[number][3]);
+    Speech.speak(data[number][4]);
+  }, [number]);
   return (
     <View
       style={[
@@ -78,13 +93,6 @@ const Question = () => {
         createStyle.shadow,
       ]}
     >
-      <View style={{ backgroundColor: "dodgerblue" }}>
-        {/* <ProgressBar
-          styleAttr="Horizontal"
-          indeterminate={false}
-          progress={0.5}
-        /> */}
-      </View>
       <Text style={{ paddingTop: 15, marginLeft: 10, fontSize: 20 }}>
         {data[number].question}
       </Text>
@@ -97,6 +105,7 @@ const Question = () => {
           <View style={createStyle.direction}>
             <CheckBox
               value={Response[number][1]}
+              style={createStyle.radioButton}
               onValueChange={() => {
                 // console.log(key);
                 updateOption(1, number);
@@ -107,6 +116,7 @@ const Question = () => {
           <View style={createStyle.direction}>
             <CheckBox
               value={Response[number][2]}
+              style={createStyle.radioButton}
               onValueChange={() => {
                 updateOption(2, number);
               }}
@@ -116,6 +126,7 @@ const Question = () => {
           <View style={createStyle.direction}>
             <CheckBox
               value={Response[number][3]}
+              style={createStyle.radioButton}
               onValueChange={() => {
                 updateOption(3, number);
               }}
@@ -125,6 +136,7 @@ const Question = () => {
           <View style={createStyle.direction}>
             <CheckBox
               value={Response[number][4]}
+              style={createStyle.radioButton}
               onValueChange={() => {
                 updateOption(4, number);
               }}
@@ -171,6 +183,11 @@ const createStyle = StyleSheet.create({
     shadowRadius: 2,
     elevation: 20,
   },
+  radioButton: {
+    borderRadius: 11,
+    width: 22,
+    height: 22,
+  },
 });
 
-export default Question;
+export default Question1;

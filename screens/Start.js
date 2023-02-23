@@ -3,6 +3,7 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import styles from "../styles/style";
 import Question from "../components/Question";
+import Question1 from "../components/Question1";
 const Start = () => {
   return (
     <SafeAreaView
@@ -14,7 +15,7 @@ const Start = () => {
         backgroundColor: "#fc77a6",
       }}
     >
-      <Question></Question>
+      <Question1></Question1>
     </SafeAreaView>
   );
 };

@@ -50,25 +50,25 @@ const HomeScreen = () => {
             onPress={() => {
               navigation.navigate("Start");
             }}
-            style={styles.button}
+            style={styles1.button}
           >
             <Text style={styles.text}>Start</Text>
           </Pressable>
 
-          <Pressable style={styles.button}>
+          <Pressable style={styles1.button}>
             <Text style={styles.text}>About</Text>
           </Pressable>
 
           <View style={{ flexDirection: "row" }}>
             <Pressable
-              style={[styles.button, { flex: 0.5 }]}
+              style={[styles1.button, { flex: 0.5 }]}
               onPress={() => {
                 navigation.navigate("Welcome");
               }}
             >
               <Text style={styles.text}>Log out</Text>
             </Pressable>
-            <Pressable style={[styles.button, { flex: 0.5 }]}>
+            <Pressable style={[styles1.button, { flex: 0.5 }]}>
               <Text style={styles.text}></Text>
             </Pressable>
           </View>
@@ -84,6 +84,15 @@ const styles1 = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 2,
     elevation: 20,
+  },
+  button: {
+    padding: 15,
+    margin: 10,
+    paddingHorizontal: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#ff2b77",
+    borderRadius: 5,
   },
 });
 export default HomeScreen;
