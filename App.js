@@ -2,7 +2,9 @@ import * as React from "react";
 import { AppRegistry } from "react-native";
 // import { StatusBar } from "expo-status-bar";
 // import { StyleSheet, Text, View, Image, Pressable } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { navigationRef } from "./RootNavigation";
+import * as RootNavigation from "./RootNavigation.js";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./screens/HomeScreen";
 import Start from "./screens/Start";
@@ -10,10 +12,23 @@ import End from "./screens/End";
 import Login from "./screens/Login";
 import Signup from "./screens/Signup";
 import Welcome from "./screens/Welcome";
+import { AlanView } from "@alan-ai/alan-sdk-react-native";
+import { useEffect } from "react";
+import { NativeEventEmitter, NativeModules } from "react-native";
 const Stack = createNativeStackNavigator();
+
 export default function App() {
+  const { AlanEventEmitter } = NativeModules;
+  const alanEventEmitter = new NativeEventEmitter(AlanEventEmitter);
+
+  useEffect(() => {
+    alanEventEmitter.addListener("onCommand", (data) => {
+      if (data.command === "start") RootNavigation.navigate("Start");
+      if (data.command === "logout") RootNavigation.navigate("Welcome");
+    });
+  });
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <Stack.Navigator>
         <Stack.Screen
           name="Welcome"
@@ -49,6 +64,11 @@ export default function App() {
           options={{ headerShown: true }}
         />
       </Stack.Navigator>
+      <AlanView
+      // projectid={
+      //   //Paste yours
+      // }
+      />
     </NavigationContainer>
   );
 }

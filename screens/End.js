@@ -2,8 +2,12 @@ import { View, Text, Pressable, StyleSheet } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import styles from "../styles/style";
+import * as Speech from "expo-speech";
 const End = ({ route }) => {
   const navigation = useNavigation();
+  React.useEffect(() => {
+    Speech.speak(`You scored ${route.params.correct} points out of 8`);
+  });
   return (
     <View
       style={{

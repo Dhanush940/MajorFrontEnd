@@ -8,11 +8,55 @@ import styles from "../styles/style";
 import Answers from "../DB/Answers";
 import { useNavigation } from "@react-navigation/native";
 import * as Speech from "expo-speech";
+import { NativeEventEmitter, NativeModules } from "react-native";
+// let partialResults = [...Response];
 const Question1 = () => {
   const navigator = useNavigation();
   const [number, setNumber] = useState(0);
   const [checked, setChecked] = useState(0);
   const [answer, setAnswers] = useState([]);
+
+  const { AlanEventEmitter } = NativeModules;
+  const alanEventEmitter = new NativeEventEmitter(AlanEventEmitter);
+
+  // React.useEffect(() => {
+  //   alanEventEmitter.addListener("onCommand", (data) => {
+  //     if (data.command === "nextQuestion") {
+  //       changeQuestionFront();
+  //       console.log("Next question is from this");
+  //     } else if (data.command === "previousQuestion") {
+  //       changeQuestionBack();
+  //       console.log("Previous question is from this");
+  //     }
+  //   });
+  // });
+
+  React.useEffect(() => {
+    alanEventEmitter.addListener("onCommand", (info) => {
+      if (info.command === "nextQuestion") {
+        if (number <= data.length - 1) {
+          // setNumber((prevState) => prevState + 1);
+          changeQuestionFront();
+          console.log("Next Question is :");
+          return;
+        }
+      } else if (info.command === "previousQuestion") {
+        if (number > 0) {
+          setNumber((prevState) => prevState - 1);
+          console.log("Previous Question is :");
+          return;
+        }
+      }
+    });
+  });
+  // partialResults = [...Response];
+  // for (let i = 0; i < partialResults.length; i++) {
+  //   console.log("Value stored in partial results", partialResults[i][1]);
+  // }
+
+  // for (let i = 0; i < partialResults.length; i++) {
+  //   console.log("Value stored in Response", Response[i][1]);
+  // }
 
   const changeQuestionFront = () => {
     if (number >= data.length - 1) return;
@@ -29,8 +73,8 @@ const Question1 = () => {
 
   const updateOption = (id, number) => {
     if (Response[number].chose != true) {
-      Response[number][id] = !Response[number][id];
-      Response[number].chose = !Response[number].chose;
+      Response[number][id] = true;
+      Response[number].chose = true;
       Response[number].selected = id;
       Speech.speak(`You have selected ${data[number][id]} `, {
         language: "en",
@@ -41,8 +85,9 @@ const Question1 = () => {
       Response[number].chose == true &&
       Response[number].selected === id
     ) {
-      Response[number][id] = !Response[number][id];
-      Response[number].chose = !Response[number].chose;
+      // !Response[number][id]
+      Response[number][id] = false;
+      Response[number].chose = false;
       Response[number].selected = null;
       Speech.speak(`You have de-selected ${data[number][id]}`);
     } else {
@@ -65,11 +110,26 @@ const Question1 = () => {
   const handleSubmit = () => {
     let count = 0;
     for (let i = 0; i < Response.length; i++) {
-      if (Response[i].chose === true && Response[i].selected === Answers[i])
+      if (Response[i].chose === true && Response[i].selected === Answers[i]) {
         count++;
+        // Response[i][Response[i].selected] = false;
+        // console.log(typeof Response[i].selected);
+      }
     }
     console.log(count, "Answers are correct");
+    for (let i = 0; i < Response.length; i++) {
+      Response[i][1] = false;
+      Response[i][2] = false;
+      Response[i][3] = false;
+      Response[i][4] = false;
+      Response[i].chose = false;
+      Response[i].selected = null;
+      // console.log("Question :", i);
+    }
     navigator.navigate("End", { correct: count });
+    setChecked((prevState) => prevState + 1);
+    // setNumber(0);
+
     return;
   };
 
@@ -94,7 +154,7 @@ const Question1 = () => {
       ]}
     >
       <Text style={{ paddingTop: 15, marginLeft: 10, fontSize: 20 }}>
-        {data[number].question}
+        {number + 1}){data[number].question}
       </Text>
 
       <View>

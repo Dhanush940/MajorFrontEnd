@@ -85,9 +85,9 @@ const Login = ({ navigation }) => {
               onPressIn={() => setErrormsg(null)}
             />
           </View>
-          <View style={styles.fp}>
+          {/* <View style={styles.fp}>
             <Text style={link}>Forgot Password?</Text>
-          </View>
+          </View> */}
           <Text style={button1} onPress={() => Sendtobackend()}>
             Login
           </Text>
